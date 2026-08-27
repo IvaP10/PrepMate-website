@@ -2,76 +2,184 @@
 
 import { useEffect } from "react";
 
+const clamp = (value: number, minimum = 0, maximum = 1) =>
+  Math.min(maximum, Math.max(minimum, value));
+
+type SceneState = {
+  opacity: number;
+  rotateY: number;
+  scale: number;
+  visualScale: number;
+  x: number;
+};
+
+function sceneState(
+  progress: number,
+  start: number,
+  end: number,
+  keepFinal = false,
+): SceneState {
+  const local = clamp((progress - start) / (end - start));
+  const enter = clamp(local / 0.2);
+  const exit = keepFinal ? 0 : clamp((local - 0.79) / 0.21);
+  const settle = clamp((local - 0.13) / 0.58);
+
+  return {
+    opacity: enter * (1 - exit),
+    rotateY: (1 - enter) * 5 - exit * 4,
+    scale: 0.9 + enter * 0.1 - exit * 0.05,
+    visualScale: 0.84 + settle * 0.2,
+    x: (1 - enter) * 112 - exit * 112,
+  };
+}
+
 export function MotionEnhancer() {
   useEffect(() => {
-    const revealElements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    const parallaxElements = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const hero = document.querySelector<HTMLElement>('[data-motion="hero"]');
+    const storyboard = document.querySelector<HTMLElement>('[data-motion="storyboard"]');
+    const privacy = document.querySelector<HTMLElement>('[data-motion="privacy"]');
+    const statement = document.querySelector<HTMLElement>('[data-motion="statement"]');
+    const storyIntro = storyboard?.querySelector<HTMLElement>(".storyboard-intro") || null;
+    const storyScenes = storyboard
+      ? Array.from(storyboard.querySelectorAll<HTMLElement>("[data-story-scene]"))
+      : [];
 
-    if (reducedMotion.matches || !("IntersectionObserver" in window)) {
-      revealElements.forEach((element) => element.classList.add("is-visible"));
-      return;
-    }
+    if (reducedMotion.matches || !hero || !storyboard || !privacy || !statement) return;
 
-    document.documentElement.classList.add("motion-ready");
-
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          (entry.target as HTMLElement).classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        });
-      },
-      { rootMargin: "0px 0px -10%", threshold: 0.08 },
-    );
-
-    revealElements.forEach((element) => revealObserver.observe(element));
-
-    const visibleParallax = new Set<HTMLElement>();
-    const parallaxObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const element = entry.target as HTMLElement;
-          if (entry.isIntersecting) visibleParallax.add(element);
-          else visibleParallax.delete(element);
-        });
-        scheduleParallax();
-      },
-      { rootMargin: "18% 0px" },
-    );
+    document.documentElement.classList.add("cinematic-ready");
 
     let animationFrame = 0;
-    const updateParallax = () => {
-      animationFrame = 0;
-      const viewportCenter = window.innerHeight / 2;
-      visibleParallax.forEach((element) => {
-        const bounds = element.getBoundingClientRect();
-        const elementCenter = bounds.top + bounds.height / 2;
-        const distance = (elementCenter - viewportCenter) / Math.max(window.innerHeight, 1);
-        const amplitude = Number(element.dataset.parallax || 12);
-        const offset = Math.max(-amplitude, Math.min(amplitude, distance * amplitude * -1.8));
-        element.style.setProperty("--parallax-y", `${offset.toFixed(2)}px`);
+    let lastHeroProgress = -1;
+    let lastHeroCompact = false;
+    let lastPrivacyProgress = -1;
+    let lastStatementProgress = -1;
+    let lastStoryboardProgress = -1;
+
+    const renderHero = (bounds: DOMRect, viewportHeight: number) => {
+      hero.classList.toggle("is-motion-active", bounds.bottom > -viewportHeight * 0.5 && bounds.top < viewportHeight * 1.5);
+      const travel = Math.max(bounds.height - viewportHeight, 1);
+      const progress = clamp(-bounds.top / travel);
+      const compact = window.innerWidth <= 1050;
+      if (Math.abs(progress - lastHeroProgress) < 0.0005 && compact === lastHeroCompact) return;
+      lastHeroProgress = progress;
+      lastHeroCompact = compact;
+      const copyExit = clamp(progress / (compact ? 0.62 : 0.56));
+      const copyX = compact ? 0 : progress * -48;
+      const copyY = compact ? progress * -49 : progress * -4;
+      const stageX = compact ? 0 : progress * -19;
+      const stageY = compact ? progress * -12 : progress * 2;
+      const stageScale = 1 + progress * (compact ? 0.17 : 0.34);
+
+      hero.style.setProperty("--hero-copy-x", `${copyX.toFixed(3)}vw`);
+      hero.style.setProperty("--hero-copy-y", `${copyY.toFixed(3)}vh`);
+      hero.style.setProperty("--hero-copy-opacity", `${(1 - copyExit).toFixed(4)}`);
+      hero.style.setProperty("--hero-stage-x", `${stageX.toFixed(3)}vw`);
+      hero.style.setProperty("--hero-stage-y", `${stageY.toFixed(3)}vh`);
+      hero.style.setProperty("--hero-stage-scale", stageScale.toFixed(4));
+      hero.style.setProperty("--hero-window-rotate-y", `${(-4 + progress * 4).toFixed(3)}deg`);
+      hero.style.setProperty("--hero-window-rotate-z", `${(1 - progress).toFixed(3)}deg`);
+      hero.style.setProperty("--hero-orbit-scale", (1 + progress * 0.58).toFixed(4));
+      hero.style.setProperty("--hero-orbit-rotate", `${(progress * 48).toFixed(3)}deg`);
+      hero.style.setProperty("--hero-caption-opacity", `${(1 - clamp(progress / 0.34)).toFixed(4)}`);
+    };
+
+    const renderStoryboard = (bounds: DOMRect, viewportHeight: number) => {
+      storyboard.classList.toggle("is-motion-active", bounds.bottom > -viewportHeight * 0.5 && bounds.top < viewportHeight * 1.5);
+      const travel = Math.max(bounds.height - viewportHeight, 1);
+      const progress = clamp(-bounds.top / travel);
+      if (Math.abs(progress - lastStoryboardProgress) < 0.0005) return;
+      lastStoryboardProgress = progress;
+      const introBuild = clamp(progress / 0.065);
+      const introExit = clamp((progress - 0.07) / 0.065);
+      const introOpacity = 1 - introExit;
+      const introScale = 0.84 + introBuild * 0.16 + introExit * 0.12;
+      const introY = (1 - introBuild) * 8 - introExit * 16;
+
+      if (storyIntro) {
+        storyIntro.style.setProperty("--intro-opacity", introOpacity.toFixed(4));
+        storyIntro.style.setProperty("--intro-scale", introScale.toFixed(4));
+        storyIntro.style.setProperty("--intro-y", `${introY.toFixed(3)}vh`);
+      }
+
+      const states = [
+        sceneState(progress, 0.1, 0.42),
+        sceneState(progress, 0.36, 0.7),
+        sceneState(progress, 0.64, 1.02, true),
+      ];
+
+      states.forEach((state, index) => {
+        const scene = storyScenes[index];
+        if (!scene) return;
+        scene.style.setProperty("--scene-x", `${state.x.toFixed(3)}vw`);
+        scene.style.setProperty("--scene-opacity", state.opacity.toFixed(4));
+        scene.style.setProperty("--scene-scale", state.scale.toFixed(4));
+        scene.style.setProperty("--scene-rotate-y", `${state.rotateY.toFixed(3)}deg`);
+        scene.style.setProperty("--scene-visual-scale", state.visualScale.toFixed(4));
+        scene.classList.toggle("is-motion-active", state.opacity > 0.01);
       });
+
+      const activeScene = progress < 0.1 ? -1 : progress < 0.37 ? 0 : progress < 0.66 ? 1 : 2;
+      storyboard.dataset.activeScene = String(activeScene);
+      storyboard.style.setProperty("--story-progress-opacity", introExit.toFixed(4));
     };
 
-    const scheduleParallax = () => {
+    const renderPrivacy = (bounds: DOMRect, viewportHeight: number) => {
+      privacy.classList.toggle("is-motion-active", bounds.bottom > -viewportHeight * 0.5 && bounds.top < viewportHeight * 1.5);
+      const enter = clamp((viewportHeight - bounds.top) / (viewportHeight * 0.92));
+      if (Math.abs(enter - lastPrivacyProgress) < 0.0005) return;
+      lastPrivacyProgress = enter;
+      const ease = 1 - Math.pow(1 - enter, 3);
+
+      privacy.style.setProperty("--privacy-copy-x", `${((1 - ease) * -44).toFixed(3)}vw`);
+      privacy.style.setProperty("--privacy-diagram-x", `${((1 - ease) * 48).toFixed(3)}vw`);
+      privacy.style.setProperty("--privacy-opacity", (0.18 + ease * 0.82).toFixed(4));
+      privacy.style.setProperty("--privacy-scale", (0.9 + ease * 0.1).toFixed(4));
+      privacy.style.setProperty("--privacy-rotate-y", `${((1 - ease) * -7).toFixed(3)}deg`);
+    };
+
+    const renderStatement = (bounds: DOMRect, viewportHeight: number) => {
+      statement.classList.toggle("is-motion-active", bounds.bottom > -viewportHeight * 0.5 && bounds.top < viewportHeight * 1.5);
+      const enter = clamp((viewportHeight - bounds.top) / viewportHeight);
+      if (Math.abs(enter - lastStatementProgress) < 0.0005) return;
+      lastStatementProgress = enter;
+      const ease = 1 - Math.pow(1 - enter, 3);
+
+      statement.style.setProperty("--statement-opacity", (0.12 + ease * 0.88).toFixed(4));
+      statement.style.setProperty("--statement-scale", (0.72 + ease * 0.28).toFixed(4));
+      statement.style.setProperty("--statement-y", `${((1 - ease) * 18).toFixed(3)}vh`);
+    };
+
+    const render = () => {
+      animationFrame = 0;
+      const viewportHeight = Math.max(window.innerHeight, 1);
+
+      // Read geometry first, then perform composited writes below.
+      const heroBounds = hero.getBoundingClientRect();
+      const storyboardBounds = storyboard.getBoundingClientRect();
+      const privacyBounds = privacy.getBoundingClientRect();
+      const statementBounds = statement.getBoundingClientRect();
+
+      renderHero(heroBounds, viewportHeight);
+      renderStoryboard(storyboardBounds, viewportHeight);
+      renderPrivacy(privacyBounds, viewportHeight);
+      renderStatement(statementBounds, viewportHeight);
+    };
+
+    const scheduleRender = () => {
       if (animationFrame) return;
-      animationFrame = window.requestAnimationFrame(updateParallax);
+      animationFrame = window.requestAnimationFrame(render);
     };
 
-    parallaxElements.forEach((element) => parallaxObserver.observe(element));
-    window.addEventListener("scroll", scheduleParallax, { passive: true });
-    window.addEventListener("resize", scheduleParallax, { passive: true });
-    scheduleParallax();
+    window.addEventListener("scroll", scheduleRender, { passive: true });
+    window.addEventListener("resize", scheduleRender, { passive: true });
+    scheduleRender();
 
     return () => {
-      revealObserver.disconnect();
-      parallaxObserver.disconnect();
-      window.removeEventListener("scroll", scheduleParallax);
-      window.removeEventListener("resize", scheduleParallax);
+      window.removeEventListener("scroll", scheduleRender);
+      window.removeEventListener("resize", scheduleRender);
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
-      document.documentElement.classList.remove("motion-ready");
+      document.documentElement.classList.remove("cinematic-ready");
     };
   }, []);
 
