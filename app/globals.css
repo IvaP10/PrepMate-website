@@ -2151,7 +2151,7 @@ html[data-theme="dark"] .evidence-chip i {
 }
 
 .cinematic-ready .privacy-section {
-  min-height: 112vh;
+  min-height: min(88vh, 920px);
 }
 
 .cinematic-ready .privacy-copy {
@@ -2181,9 +2181,9 @@ html[data-theme="dark"] .evidence-chip i {
   align-items: center;
   display: flex;
   justify-content: center;
-  min-height: 100vh;
-  padding-bottom: clamp(110px, 12vw, 170px);
-  padding-top: clamp(110px, 12vw, 170px);
+  min-height: 62vh;
+  padding-bottom: clamp(92px, 10vw, 140px);
+  padding-top: clamp(92px, 10vw, 140px);
 }
 
 .desktop-statement-content {
@@ -3076,7 +3076,7 @@ html[data-theme="dark"] .exercise-action {
   display: grid;
   column-gap: clamp(60px, 9vw, 132px);
   grid-template-columns: minmax(300px, 0.8fr) minmax(520px, 1.2fr);
-  padding: clamp(120px, 13vw, 180px) 0;
+  padding: clamp(92px, 9vw, 130px) 0;
   position: relative;
 }
 
@@ -3208,7 +3208,7 @@ html[data-theme="dark"] .exercise-action {
 }
 
 .desktop-statement {
-  padding: clamp(160px, 18vw, 250px) 0;
+  padding: clamp(92px, 10vw, 140px) 0;
   text-align: center;
 }
 
@@ -3601,7 +3601,7 @@ html[data-theme="dark"] .exercise-action {
   }
 
   .privacy-section {
-    padding: 110px 0;
+    padding: 86px 0;
   }
 
   .privacy-copy h2 {
@@ -3609,7 +3609,8 @@ html[data-theme="dark"] .exercise-action {
   }
 
   .desktop-statement {
-    padding: 150px 0;
+    min-height: auto;
+    padding: 105px 0;
   }
 
   .final-cta {
