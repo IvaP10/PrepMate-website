@@ -798,6 +798,24 @@ h2 em {
   text-underline-offset: 3px;
 }
 
+.verification-resources {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 11px;
+  margin-top: 22px;
+  padding-top: 18px;
+}
+
+.verification-resources .section-label {
+  margin-bottom: 0;
+}
+
+.verification-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 17px;
+}
+
 .content-section {
   padding-top: 22px;
 }

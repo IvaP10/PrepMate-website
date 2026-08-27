@@ -12,6 +12,7 @@ public values in the hosting environment:
 - NEXT_PUBLIC_PREPMATE_SUPPORT_EMAIL
 - NEXT_PUBLIC_PREPMATE_SECURITY_EMAIL
 
-The release workflow publishes the immutable installers and a latest.json
-manifest to the download storage hostname. The website reads that manifest and
-shows download buttons only for HTTPS artifacts from a published manifest.
+The release workflow publishes the immutable installers, generated release
+notes, verification files, and a latest.json manifest to the download storage
+hostname. The website reads that manifest and shows download buttons and
+verification links only for HTTPS artifacts from a published manifest.

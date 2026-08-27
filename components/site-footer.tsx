@@ -7,6 +7,7 @@ export function SiteFooter() {
       <span>Local-first interview practice.</span>
       <div className="footer-links">
         <Link href="/download">Download</Link>
+        <Link href="/changelog">Release notes</Link>
         <Link href="/privacy">Privacy</Link>
         <Link href="/security">Security</Link>
         <Link href="/support">Support</Link>

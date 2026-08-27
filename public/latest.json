@@ -18,7 +18,16 @@
       "x64": {}
     }
   },
+  "release_notes_url": "",
   "verification": {
-    "checksums": ""
+    "checksums": "",
+    "sbom": [],
+    "license_inventory": ""
+  },
+  "legal": {
+    "license": "/LICENSE",
+    "notice": "/NOTICE",
+    "privacy": "/PRIVACY.md",
+    "third_party_notices": "/THIRD_PARTY_NOTICES.md"
   }
 }

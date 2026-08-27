@@ -9,6 +9,7 @@ export function SiteHeader() {
       </Link>
       <nav className="site-nav" aria-label="Primary navigation">
         <Link href="/download">Download</Link>
+        <Link href="/changelog">Release notes</Link>
         <Link href="/privacy">Privacy</Link>
         <Link href="/support">Support</Link>
       </nav>

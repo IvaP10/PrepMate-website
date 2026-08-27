@@ -27,6 +27,15 @@ type DownloadManifest = {
   };
   verification?: {
     checksums?: string;
+    sbom?: string[];
+    license_inventory?: string;
+  };
+  release_notes_url?: string;
+  legal?: {
+    license?: string;
+    notice?: string;
+    privacy?: string;
+    third_party_notices?: string;
   };
 };
 
@@ -136,6 +145,25 @@ export function DownloadPanel() {
         "Technical execution requires macOS Seatbelt and a supported language runtime.",
         "Updates are installed manually from the official Download page.",
       ];
+  const resourceLinks = [
+    { label: "Latest manifest", url: safeHttpsUrl(siteConfig.manifestUrl) },
+    { label: "Release notes", url: safeHttpsUrl(manifest?.release_notes_url) },
+    { label: "SHA-256 checksums", url: safeHttpsUrl(manifest?.verification?.checksums) },
+    ...(manifest?.verification?.sbom || []).map((url, index) => ({
+      label: `SBOM ${index + 1}`,
+      url: safeHttpsUrl(url),
+    })),
+    {
+      label: "License inventory",
+      url: safeHttpsUrl(manifest?.verification?.license_inventory),
+    },
+    { label: "LICENSE", url: safeHttpsUrl(manifest?.legal?.license) },
+    { label: "NOTICE", url: safeHttpsUrl(manifest?.legal?.notice) },
+    {
+      label: "Third-party notices",
+      url: safeHttpsUrl(manifest?.legal?.third_party_notices),
+    },
+  ].filter((resource): resource is { label: string; url: string } => Boolean(resource.url));
   return (
     <section className="download-panel" aria-labelledby="download-options">
       <div className="download-panel-heading">
@@ -171,10 +199,17 @@ export function DownloadPanel() {
           {limitations.map((limitation) => <li key={limitation}>{limitation}</li>)}
         </ul>
       </div>
-      {manifest?.verification?.checksums && safeHttpsUrl(manifest.verification.checksums) ? (
-        <a className="verification-link" href={safeHttpsUrl(manifest.verification.checksums) || undefined}>
-          View all SHA-256 checksums ↗
-        </a>
+      {resourceLinks.length ? (
+        <div className="verification-resources">
+          <span className="section-label">Release files</span>
+          <div className="verification-links">
+            {resourceLinks.map((resource) => (
+              <a className="verification-link" href={resource.url} key={resource.url}>
+                {resource.label} ↗
+              </a>
+            ))}
+          </div>
+        </div>
       ) : null}
     </section>
   );
