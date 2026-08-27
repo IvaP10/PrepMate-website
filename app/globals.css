@@ -2514,7 +2514,9 @@ html[data-theme="dark"] .evidence-chip i {
 
 .hero-title-line {
   display: block;
+  margin-bottom: -0.18em;
   overflow: clip;
+  padding-bottom: 0.18em;
 }
 
 .hero-title-line > span {
