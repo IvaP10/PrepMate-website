@@ -113,7 +113,6 @@ export default function Home() {
               </p>
               <div className="hero-actions">
                 <Link className="button button-primary" href="/download">Download for macOS <span aria-hidden="true">↓</span></Link>
-                <Link className="button button-quiet" href="#product">Explore the app <span aria-hidden="true">↘</span></Link>
               </div>
               <p className="hero-note">macOS 13+ · Apple Silicon &amp; Intel · No account required</p>
             </div>

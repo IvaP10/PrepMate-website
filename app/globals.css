@@ -2010,7 +2010,7 @@ html[data-theme="dark"] .evidence-chip i {
 }
 
 .cinematic-ready .product-storyboard {
-  height: 520vh;
+  height: 430vh;
   width: 100%;
 }
 
@@ -2260,7 +2260,7 @@ html[data-theme="dark"] .evidence-chip i {
   }
 
   .cinematic-ready .product-storyboard {
-    height: 470vh;
+    height: 400vh;
   }
 
   .cinematic-ready .storyboard-sticky {
@@ -2448,7 +2448,7 @@ html[data-theme="dark"] .evidence-chip i {
 }
 
 .cinematic-ready .hero-cinematic {
-  height: 190vh;
+  height: 165vh;
 }
 
 .cinematic-ready .hero-sticky {
@@ -2546,7 +2546,7 @@ html[data-theme="dark"] .evidence-chip i {
 
 @media (max-width: 1050px) {
   .cinematic-ready .hero-cinematic {
-    height: 165vh;
+    height: 150vh;
   }
 
   .cinematic-ready .hero-sticky {
@@ -2563,7 +2563,7 @@ html[data-theme="dark"] .evidence-chip i {
 
 @media (max-width: 700px) {
   .cinematic-ready .hero-cinematic {
-    height: 150vh;
+    height: 138vh;
   }
 
   .cinematic-ready .hero-sticky {
@@ -2624,7 +2624,7 @@ html[data-theme="dark"] .evidence-chip i {
 }
 
 .flow-section {
-  padding: clamp(140px, 15vw, 210px) 0 clamp(130px, 14vw, 190px);
+  padding: clamp(105px, 11vw, 155px) 0 clamp(96px, 10vw, 145px);
 }
 
 .section-heading {
@@ -2675,7 +2675,7 @@ html[data-theme="dark"] .evidence-chip i {
   border-top: 1px solid var(--hairline);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: clamp(70px, 9vw, 118px);
+  margin-top: clamp(54px, 6vw, 82px);
 }
 
 .flow-step {
@@ -2699,7 +2699,7 @@ html[data-theme="dark"] .evidence-chip i {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
   letter-spacing: 0.08em;
-  margin-bottom: 88px;
+  margin-bottom: 60px;
 }
 
 .flow-step h3 {
@@ -3544,7 +3544,7 @@ html[data-theme="dark"] .exercise-action {
   }
 
   .flow-section {
-    padding: 115px 0;
+    padding: 92px 0;
   }
 
   .product-intro {
