@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
+import { ThemeLogo } from "./theme-logo";
 
 export function SiteHeader() {
   return (
     <header className="site-header">
       <Link className="brand" href="/" aria-label="PrepMate home">
-        <span className="brand-mark" aria-hidden="true"><span>P</span></span>
+        <ThemeLogo className="brand-logo" size={31} decorative />
         <span>PrepMate</span>
       </Link>
       <nav className="site-nav" aria-label="Primary navigation">

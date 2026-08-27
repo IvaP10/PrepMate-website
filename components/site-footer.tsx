@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { ThemeLogo } from "./theme-logo";
 
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-identity">
-        <span className="footer-brand">PrepMate</span>
+        <span className="footer-brand"><ThemeLogo className="footer-logo" size={26} decorative /> PrepMate</span>
         <span>AI interview practice for macOS.</span>
       </div>
       <nav className="footer-links" aria-label="Footer navigation">

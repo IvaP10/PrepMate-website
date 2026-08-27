@@ -69,21 +69,6 @@ a {
   letter-spacing: -0.02em;
 }
 
-.brand-mark {
-  align-items: center;
-  background: var(--lime);
-  border-radius: 10px 10px 10px 3px;
-  color: var(--night);
-  display: inline-flex;
-  font-family: var(--serif);
-  font-size: 20px;
-  font-weight: 700;
-  height: 31px;
-  justify-content: center;
-  line-height: 1;
-  width: 31px;
-}
-
 .site-nav {
   align-items: center;
   display: flex;
@@ -1294,19 +1279,38 @@ a:focus-visible {
   font-weight: 660;
 }
 
-.brand-mark {
-  background: var(--text);
-  border-radius: 9px;
-  color: var(--page);
-  font-family: var(--sans);
-  font-size: 15px;
-  height: 29px;
-  transform: rotate(-3deg);
-  width: 29px;
+.theme-logo {
+  --theme-logo-size: 32px;
+  display: inline-grid;
+  flex: 0 0 auto;
+  height: var(--theme-logo-size);
+  place-items: center;
+  width: var(--theme-logo-size);
 }
 
-.brand-mark span {
-  transform: rotate(3deg);
+.theme-logo img {
+  grid-area: 1 / 1;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 180ms ease;
+  width: 100%;
+}
+
+.theme-logo-dark {
+  opacity: 0;
+}
+
+html[data-theme="dark"] .theme-logo-light {
+  opacity: 0;
+}
+
+html[data-theme="dark"] .theme-logo-dark {
+  opacity: 1;
+}
+
+.brand-logo {
+  height: 29px;
+  width: 36px;
 }
 
 .site-nav {
@@ -1594,16 +1598,9 @@ html[data-theme="dark"] .product-sidebar {
   margin: 0 6px 25px;
 }
 
-.product-brand span {
-  align-items: center;
-  background: #5450e8;
-  border-radius: 5px;
-  color: #fff;
-  display: inline-flex;
-  font-size: 8px;
+.product-brand-logo {
   height: 19px;
-  justify-content: center;
-  width: 19px;
+  width: 24px;
 }
 
 .product-nav-label {
@@ -3296,7 +3293,15 @@ html[data-theme="dark"] .exercise-action {
 }
 
 .footer-brand {
+  align-items: center;
   color: var(--text);
+  display: inline-flex;
+  gap: 8px;
+}
+
+.footer-logo {
+  height: 20px;
+  width: 26px;
 }
 
 .footer-platform {
@@ -3645,9 +3650,9 @@ html[data-theme="dark"] .exercise-action {
     gap: 8px;
   }
 
-  .brand-mark {
-    height: 26px;
-    width: 26px;
+  .brand-logo {
+    height: 24px;
+    width: 30px;
   }
 
   .theme-toggle-track {
