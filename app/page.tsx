@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { MotionEnhancer } from "@/components/motion-enhancer";
+import { PrepMateLogo } from "@/components/prepmate-logo";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { ThemeLogo } from "@/components/theme-logo";
 
 const appSections = [
   "Resume",
@@ -49,7 +49,7 @@ function ProductChrome({
       </div>
       <div className="product-layout">
         <aside className="product-sidebar" aria-label="App sections">
-          <div className="product-brand"><ThemeLogo className="product-brand-logo" size={23} decorative /><strong>PrepMate</strong></div>
+          <div className="product-brand"><PrepMateLogo className="product-brand-logo" size={23} decorative /><strong>PrepMate</strong></div>
           <span className="product-nav-label">Prepare</span>
           {appSections.slice(0, 3).map((section) => (
             <span className={`product-nav-item${active === section ? " active" : ""}`} key={section}>{section}</span>
