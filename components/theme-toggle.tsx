@@ -34,12 +34,11 @@ export function ThemeToggle() {
       className="theme-toggle"
       type="button"
       onClick={toggleTheme}
-      aria-label="Toggle color theme"
-      title="Toggle color theme"
+      aria-label="Switch color theme"
+      title="Switch color theme"
     >
-      <span className="theme-toggle-track" aria-hidden="true">
-        <span className="theme-toggle-thumb" />
-      </span>
+      <span className="theme-icon theme-icon-moon" aria-hidden="true">☾</span>
+      <span className="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
     </button>
   );
 }

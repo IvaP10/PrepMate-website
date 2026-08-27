@@ -1327,56 +1327,42 @@ html[data-theme="dark"] .theme-logo-dark {
 
 .theme-toggle {
   align-items: center;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  display: inline-flex;
-  margin-right: 10px;
-  padding: 8px;
-}
-
-.theme-toggle-track {
-  background: var(--surface-soft);
+  background: var(--surface);
   border: 1px solid var(--hairline);
   border-radius: 999px;
-  display: block;
-  height: 24px;
-  padding: 3px;
-  transition: background-color 200ms ease, border-color 200ms ease;
-  width: 42px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  margin-right: 10px;
+  padding: 0;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  width: 36px;
 }
 
-.theme-toggle-thumb {
-  background: var(--text);
-  border-radius: 50%;
-  display: block;
-  height: 16px;
-  position: relative;
-  transform: translateX(0);
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease;
-  width: 16px;
-}
-
-.theme-toggle-thumb::after {
+.theme-toggle:hover {
   background: var(--surface-soft);
-  border-radius: 50%;
-  content: "";
-  height: 6px;
-  opacity: 0;
-  position: absolute;
-  right: 1px;
-  top: 1px;
-  transform: translate(2px, -2px);
-  transition: opacity 180ms ease;
-  width: 6px;
+  border-color: var(--hairline-strong);
+  transform: translateY(-1px);
 }
 
-html[data-theme="dark"] .theme-toggle-thumb {
-  transform: translateX(18px);
+.theme-icon {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  line-height: 1;
 }
 
-html[data-theme="dark"] .theme-toggle-thumb::after {
-  opacity: 1;
+.theme-icon-sun {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-icon-sun {
+  display: inline;
 }
 
 .header-cta {
@@ -1857,7 +1843,6 @@ html[data-theme="dark"] .evidence-chip i {
   .theme-toggle {
     margin-left: auto;
     margin-right: 5px;
-    padding: 5px;
   }
 
   .hero-redesign {
@@ -3658,8 +3643,9 @@ html[data-theme="dark"] .exercise-action {
     width: 30px;
   }
 
-  .theme-toggle-track {
-    transform: scale(0.9);
+  .theme-toggle {
+    height: 34px;
+    width: 34px;
   }
 
   .product-layout {
