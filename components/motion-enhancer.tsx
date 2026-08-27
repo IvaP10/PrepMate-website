@@ -55,6 +55,9 @@ export function MotionEnhancer() {
     let lastPrivacyProgress = -1;
     let lastStatementProgress = -1;
     let lastStoryboardProgress = -1;
+    let layoutSyncFrame = 0;
+    let layoutSyncPass = 0;
+    let disposed = false;
 
     const renderHero = (bounds: DOMRect, viewportHeight: number) => {
       hero.classList.toggle("is-motion-active", bounds.bottom > -viewportHeight * 0.5 && bounds.top < viewportHeight * 1.5);
@@ -140,14 +143,13 @@ export function MotionEnhancer() {
 
     const renderStatement = (bounds: DOMRect, viewportHeight: number) => {
       statement.classList.toggle("is-motion-active", bounds.bottom > -viewportHeight * 0.5 && bounds.top < viewportHeight * 1.5);
-      const enter = clamp((viewportHeight - bounds.top) / viewportHeight);
+      const enter = clamp((viewportHeight * 0.92 - bounds.top) / (viewportHeight * 0.72));
       if (Math.abs(enter - lastStatementProgress) < 0.0005) return;
       lastStatementProgress = enter;
       const ease = 1 - Math.pow(1 - enter, 3);
 
-      statement.style.setProperty("--statement-opacity", (0.12 + ease * 0.88).toFixed(4));
-      statement.style.setProperty("--statement-scale", (0.72 + ease * 0.28).toFixed(4));
-      statement.style.setProperty("--statement-y", `${((1 - ease) * 18).toFixed(3)}vh`);
+      statement.style.setProperty("--statement-scale", (0.78 + ease * 0.22).toFixed(4));
+      statement.style.setProperty("--statement-y", `${((1 - ease) * 14).toFixed(3)}vh`);
     };
 
     const render = () => {
@@ -171,14 +173,43 @@ export function MotionEnhancer() {
       animationFrame = window.requestAnimationFrame(render);
     };
 
+    const syncAfterLayout = () => {
+      scheduleRender();
+      layoutSyncPass += 1;
+      if (layoutSyncPass < 4) {
+        layoutSyncFrame = window.requestAnimationFrame(syncAfterLayout);
+      }
+    };
+
+    const motionRegions = [hero, storyboard, privacy, statement];
+    const intersectionObserver = new IntersectionObserver(scheduleRender, {
+      rootMargin: "100% 0px",
+      threshold: [0, 0.01, 0.5, 1],
+    });
+    motionRegions.forEach((region) => intersectionObserver.observe(region));
+
+    const resizeObserver = new ResizeObserver(scheduleRender);
+    motionRegions.forEach((region) => resizeObserver.observe(region));
+
     window.addEventListener("scroll", scheduleRender, { passive: true });
     window.addEventListener("resize", scheduleRender, { passive: true });
-    scheduleRender();
+    window.addEventListener("pageshow", scheduleRender);
+    window.addEventListener("load", scheduleRender);
+    syncAfterLayout();
+    document.fonts?.ready.then(() => {
+      if (!disposed) scheduleRender();
+    });
 
     return () => {
+      disposed = true;
       window.removeEventListener("scroll", scheduleRender);
       window.removeEventListener("resize", scheduleRender);
+      window.removeEventListener("pageshow", scheduleRender);
+      window.removeEventListener("load", scheduleRender);
+      intersectionObserver.disconnect();
+      resizeObserver.disconnect();
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      if (layoutSyncFrame) window.cancelAnimationFrame(layoutSyncFrame);
       document.documentElement.classList.remove("cinematic-ready");
     };
   }, []);

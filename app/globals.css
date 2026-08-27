@@ -2208,16 +2208,14 @@ html[data-theme="dark"] .evidence-chip i {
 }
 
 .cinematic-ready .desktop-statement-content {
-  --statement-opacity: 0.12;
-  --statement-scale: 0.72;
-  --statement-y: 18vh;
-  opacity: var(--statement-opacity);
+  --statement-scale: 1;
+  --statement-y: 0vh;
   transform: translate3d(0, var(--statement-y), 0) scale(var(--statement-scale));
   transform-origin: center center;
 }
 
 .cinematic-ready .desktop-statement.is-motion-active .desktop-statement-content {
-  will-change: transform, opacity;
+  will-change: transform;
 }
 
 @media (max-width: 1050px) {
