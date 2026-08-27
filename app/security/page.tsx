@@ -19,7 +19,7 @@ export default function SecurityPage() {
         <p>Do not publish a suspected vulnerability or include API keys, resumes, transcripts, databases, or provider responses. Use the private security route below with the affected version, platform, reproduction steps, and expected impact.</p>
         <a className="contact-link" href={"mailto:" + siteConfig.securityEmail}>{siteConfig.securityEmail} ↗</a>
         <h2>Release verification</h2>
-        <p>Public macOS builds are Developer ID signed, notarized, stapled, and checked on Apple Silicon and Intel Macs. Each release publishes SHA-256 checksums, an SBOM, and the applicable license and attribution notices.</p>
+        <p>When a macOS build is published, it is Developer ID signed, notarized, stapled, and checked on Apple Silicon and Intel Macs. Each release publishes SHA-256 checksums, SBOMs, and the applicable license and attribution notices.</p>
         <h2>Runtime invariants</h2>
         <p>The local API binds to loopback, validates its origin and per-launch token, and never writes provider or encryption keys to SQLite, browser storage, logs, or release artifacts. Technical code execution fails closed without macOS Seatbelt.</p>
       </section>
