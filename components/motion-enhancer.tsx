@@ -52,6 +52,7 @@ export function MotionEnhancer() {
     let animationFrame = 0;
     let lastHeroProgress = -1;
     let lastHeroCompact = false;
+    let lastHeroRelease = -1;
     let lastPrivacyProgress = -1;
     let lastStatementProgress = -1;
     let lastStoryboardProgress = -1;
@@ -64,21 +65,29 @@ export function MotionEnhancer() {
       const travel = Math.max(bounds.height - viewportHeight, 1);
       const progress = clamp(-bounds.top / travel);
       const compact = window.innerWidth <= 1050;
-      if (Math.abs(progress - lastHeroProgress) < 0.0005 && compact === lastHeroCompact) return;
+      const stickyRelease = compact ? 0 : Math.max(viewportHeight - bounds.bottom, 0);
+      if (
+        Math.abs(progress - lastHeroProgress) < 0.0005 &&
+        compact === lastHeroCompact &&
+        Math.abs(stickyRelease - lastHeroRelease) < 0.5
+      ) return;
       lastHeroProgress = progress;
       lastHeroCompact = compact;
+      lastHeroRelease = stickyRelease;
       const copyExit = clamp(progress / (compact ? 0.62 : 0.56));
       const copyX = compact ? 0 : progress * -48;
       const copyY = compact ? progress * -49 : progress * -4;
-      const stageX = compact ? 0 : progress * -19;
-      const stageY = compact ? progress * -12 : progress * 2;
+      const stageX = compact ? 0 : progress * -15;
+      const stageY = compact
+        ? `${(progress * -12).toFixed(3)}vh`
+        : `${stickyRelease.toFixed(3)}px`;
       const stageScale = 1 + progress * (compact ? 0.17 : 0.34);
 
       hero.style.setProperty("--hero-copy-x", `${copyX.toFixed(3)}vw`);
       hero.style.setProperty("--hero-copy-y", `${copyY.toFixed(3)}vh`);
       hero.style.setProperty("--hero-copy-opacity", `${(1 - copyExit).toFixed(4)}`);
       hero.style.setProperty("--hero-stage-x", `${stageX.toFixed(3)}vw`);
-      hero.style.setProperty("--hero-stage-y", `${stageY.toFixed(3)}vh`);
+      hero.style.setProperty("--hero-stage-y", stageY);
       hero.style.setProperty("--hero-stage-scale", stageScale.toFixed(4));
       hero.style.setProperty("--hero-window-rotate-y", `${(-4 + progress * 4).toFixed(3)}deg`);
       hero.style.setProperty("--hero-window-rotate-z", `${(1 - progress).toFixed(3)}deg`);
