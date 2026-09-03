@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { DownloadPanel } from "@/components/download-panel";
 import { InfoLayout } from "@/components/info-layout";
+import { SiteLink } from "@/components/site-link";
 
 export const metadata: Metadata = {
   title: "Download",
   description: "Download the official signed and notarized PrepMate macOS application.",
 };
+
+export const dynamic = "force-static";
 
 export default function DownloadPage() {
   return (
@@ -32,7 +34,7 @@ export default function DownloadPage() {
         <p className="section-label">Availability</p>
         <h2>macOS is available now.</h2>
         <p>Windows and Linux downloads are not published yet. Windows will be released only after secure technical execution, native keychain storage, installer signing, and clean-machine verification are complete. The published manifest above is the source of truth for the current macOS version, release date, and support range.</p>
-        <Link className="text-link" href="/privacy">Read the privacy boundary ↗</Link>
+        <SiteLink className="text-link" href="/privacy">Read the privacy boundary ↗</SiteLink>
       </section>
     </InfoLayout>
   );

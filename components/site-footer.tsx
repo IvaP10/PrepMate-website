@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { PrepMateLogo } from "./prepmate-logo";
+import { SiteLink } from "./site-link";
 
 export function SiteFooter() {
   return (
@@ -9,12 +9,12 @@ export function SiteFooter() {
         <span>AI interview practice for macOS.</span>
       </div>
       <nav className="footer-links" aria-label="Footer navigation">
-        <Link href="/download">Download</Link>
-        <Link href="/changelog">Release notes</Link>
-        <Link href="/privacy">Privacy</Link>
-        <Link href="/security">Security</Link>
-        <Link href="/support">Support</Link>
-        <Link href="/license">License</Link>
+        <SiteLink href="/download">Download</SiteLink>
+        <SiteLink href="/changelog">Release notes</SiteLink>
+        <SiteLink href="/privacy">Privacy</SiteLink>
+        <SiteLink href="/security">Security</SiteLink>
+        <SiteLink href="/support">Support</SiteLink>
+        <SiteLink href="/license">License</SiteLink>
       </nav>
       <span className="footer-platform">macOS only</span>
     </footer>

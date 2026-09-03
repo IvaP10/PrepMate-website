@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { MotionEnhancer } from "@/components/motion-enhancer";
 import { PrepMateLogo } from "@/components/prepmate-logo";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { SiteLink } from "@/components/site-link";
+
+export const dynamic = "force-static";
 
 const appSections = [
   "Resume",
@@ -112,7 +114,7 @@ export default function Home() {
                 into your next focused practice.
               </p>
               <div className="hero-actions">
-                <Link className="button button-primary" href="/download">Download for macOS <span aria-hidden="true">↓</span></Link>
+                <SiteLink className="button button-primary" href="/download">Download for macOS <span aria-hidden="true">↓</span></SiteLink>
               </div>
               <p className="hero-note">macOS 13+ · Apple Silicon &amp; Intel · No account required</p>
             </div>
@@ -281,7 +283,7 @@ export default function Home() {
             PrepMate&apos;s local workspace. There is no PrepMate account and no
             PrepMate-hosted application backend.
           </p>
-          <Link className="inline-link" href="/privacy">Read the privacy boundary <span aria-hidden="true">↗</span></Link>
+                <SiteLink className="inline-link" href="/privacy">Read the privacy boundary <span aria-hidden="true">↗</span></SiteLink>
         </div>
         <div className="privacy-diagram" aria-label="PrepMate local-first data flow">
           <div className="privacy-node privacy-device">
@@ -321,7 +323,7 @@ export default function Home() {
           <p>Choose the build for your Apple Silicon or Intel Mac on the download page.</p>
         </div>
         <div className="final-cta-actions">
-          <Link className="button button-contrast" href="/download">Download for macOS <span aria-hidden="true">↓</span></Link>
+              <SiteLink className="button button-contrast" href="/download">Download for macOS <span aria-hidden="true">↓</span></SiteLink>
           <span>No web or Windows version at this time.</span>
         </div>
       </section>

@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "PrepMate release notes and known limitations.",
 };
 
+export const dynamic = "force-static";
+
 export default function ChangelogPage() {
   return (
     <InfoLayout

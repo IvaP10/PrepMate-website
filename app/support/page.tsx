@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { InfoLayout } from "@/components/info-layout";
+import { SiteLink } from "@/components/site-link";
 
 export const metadata: Metadata = {
   title: "Support",
   description: "Support information for the local-first PrepMate macOS application.",
 };
+
+export const dynamic = "force-static";
 
 export default function SupportPage() {
   return (
@@ -21,7 +24,7 @@ export default function SupportPage() {
         <h2>Keep these details private</h2>
         <p>Never attach API keys, resumes, transcripts, provider responses, database files, signing material, or unredacted local paths. Provider outages, provider retention, billing, and provider-account issues must be handled with the selected AI provider.</p>
         <h2>Before you write</h2>
-        <p>Check the <a className="text-link" href="/download">download page</a> for the current release and the <a className="text-link" href="/privacy">privacy boundary</a> for what can leave the device.</p>
+        <p>Check the <SiteLink className="text-link" href="/download">download page</SiteLink> for the current release and the <SiteLink className="text-link" href="/privacy">privacy boundary</SiteLink> for what can leave the device.</p>
       </section>
     </InfoLayout>
   );

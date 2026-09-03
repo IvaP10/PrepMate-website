@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   description: "Security reporting and release trust information for PrepMate.",
 };
 
+export const dynamic = "force-static";
+
 export default function SecurityPage() {
   return (
     <InfoLayout

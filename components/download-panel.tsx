@@ -42,7 +42,11 @@ type DownloadManifest = {
 function safeHttpsUrl(value: string | undefined) {
   if (!value) return null;
   try {
-    const url = new URL(value, window.location.origin);
+    const pathValue =
+      value.startsWith("/") && !value.startsWith("//")
+        ? siteConfig.publicPath(value)
+        : value;
+    const url = new URL(pathValue, window.location.origin);
     return url.protocol === "https:" ? url.toString() : null;
   } catch {
     return null;

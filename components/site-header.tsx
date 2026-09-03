@@ -1,22 +1,22 @@
-import Link from "next/link";
 import { PrepMateLogo } from "./prepmate-logo";
+import { SiteLink } from "./site-link";
 
 export function SiteHeader() {
   return (
     <header className="site-header">
-      <Link className="brand" href="/" aria-label="PrepMate home">
+      <SiteLink className="brand" href="/" aria-label="PrepMate home">
         <PrepMateLogo className="brand-logo" size={31} decorative />
         <span>PrepMate</span>
-      </Link>
+      </SiteLink>
       <nav className="site-nav" aria-label="Primary navigation">
-        <Link href="/#product">Product</Link>
-        <Link href="/#how-it-works">How it works</Link>
-        <Link href="/#privacy">Privacy</Link>
-        <Link href="/support">Support</Link>
+        <SiteLink href="/#product">Product</SiteLink>
+        <SiteLink href="/#how-it-works">How it works</SiteLink>
+        <SiteLink href="/#privacy">Privacy</SiteLink>
+        <SiteLink href="/support">Support</SiteLink>
       </nav>
-      <Link className="header-cta" href="/download">
+      <SiteLink className="header-cta" href="/download">
         Download <span aria-hidden="true">↓</span>
-      </Link>
+      </SiteLink>
     </header>
   );
 }

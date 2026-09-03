@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { siteConfig } from "@/lib/site-config";
 
 type PrepMateLogoProps = {
   className?: string;
@@ -21,7 +22,7 @@ export function PrepMateLogo({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/images/light.svg"
+        src={siteConfig.publicPath("/images/light.svg")}
         alt=""
         width={size}
         height={size}

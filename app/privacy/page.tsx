@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "How PrepMate handles local data and explicit provider requests.",
 };
 
+export const dynamic = "force-static";
+
 export default function PrivacyPage() {
   return (
     <InfoLayout

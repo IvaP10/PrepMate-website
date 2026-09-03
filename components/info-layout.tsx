@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { SiteLink } from "./site-link";
 
 export function InfoLayout({
   eyebrow,
@@ -17,7 +17,7 @@ export function InfoLayout({
     <main className="site-shell">
       <SiteHeader />
       <div className="inner-page">
-        <Link className="back-link" href="/">← PrepMate home</Link>
+        <SiteLink className="back-link" href="/">← PrepMate home</SiteLink>
         <p className="eyebrow">{eyebrow}</p>
         <h1 className="inner-title">{title}</h1>
         <p className="inner-lede">{lede}</p>
